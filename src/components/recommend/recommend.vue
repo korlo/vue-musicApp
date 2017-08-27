@@ -5,7 +5,8 @@
         <div v-if="recommends.length" class="slider-wrapper">
           <slider>
             <div v-for='item in recommends'>
-              <a :href="item.linkUrl">
+              <!--<a :href="item.linkUrl">-->
+              <a>
                 <img @load="loadImage" :src="item.picUrl"/>
               </a>
             </div>
@@ -16,7 +17,8 @@
           <ul>
             <li v-for="item in getdisclist" class="item">
               <div class="icon">
-                <img :src="item.imgurl" width="60" height="60">
+                <!--class="needsclick" 从新派发点击事件-->
+                <img class="needsclick" v-lazy="item.imgurl" width="60" height="60">
               </div>
               <div class="text">
                 <h2 class="name" v-html="item.creator.name"></h2>
@@ -26,11 +28,15 @@
           </ul>
         </div>
       </div>
+      <div class='loading-container' v-show="!getdisclist.length">
+        <loading :title="title"></loading>
+      </div>
     </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import loading from 'base/loading/loading'
   import Slider from 'base/slider/slider'
   import Scroll from 'base/Scroll/Scroll'
   import {getRecommend, getDiscList} from 'api/recommend'
@@ -40,7 +46,8 @@
     data() {
       return {
         recommends: [],
-        getdisclist: []
+        getdisclist: [],
+        title: '歌单加载当中...'
       }
     },
     created() {
@@ -53,8 +60,14 @@
 //        this._getRecommend()
 //      },2000)
 
-      this._getRecommend()
-      this._getDiscList()
+//      this._getRecommend()
+//      this._getDiscList()
+
+        //测试loading
+//      setTimeout(() => {
+//        this._getDiscList()
+//      }, 3000)
+
     },
     methods: {
       _getRecommend() {
@@ -77,8 +90,8 @@
           }
         )
       },
-      loadImage(){
-        if(!this.checkLoaded){
+      loadImage() {
+        if (!this.checkLoaded) {
           //这个refresh（） 是scroll组件里面的？？ 还有这种操作
           //记录一下？？？
           this.$refs.scroll.refresh()
@@ -89,7 +102,8 @@
     },
     components: {
       Slider,
-      Scroll
+      Scroll,
+      loading
     }
   }
 </script>

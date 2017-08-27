@@ -37,7 +37,7 @@ export default new Router({
 routes: [
     {
       path: '/',
-      redirect: '/recommend'
+      redirect: '/singer'
     },
     {
       path: '/recommend',

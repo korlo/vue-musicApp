@@ -9,7 +9,7 @@
 
   export default {
     props: {
-      //为什么要用z这个
+      //为什么要用z这个probeType
       probeType: {
         type: Number,
         default: 1
