@@ -5,33 +5,57 @@
         <h2 class="list-group-title">{{group.title}}</h2>
         <ul>
           <li v-for="item in group.items" class="list-group-item">
-            <img v-lazy="item.avatar" class="avatar"/>
+            <img :src="item.avatar" class="avatar"/>
             <span class="name">{{item.name}}</span>
           </li>
         </ul>
       </li>
-
     </ul>
-
+    <div class="list-shortcut">
+      <ul>
+        <li v-for="(item,index) in shortcutList" class="item" :data-index="index"
+            @touchmove.stop.prevent="onShortcutTouchMove"
+            @touchstart.stop.prevent="onShortcutTouchStart"
+            @touchend.stop>
+          {{item}}
+        </li>
+      </ul>
+    </div>
   </scroll>
 </template>
 
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
+  import { getData } from 'common/js/dom'
 
   export default {
     props: {
       data: Array,
       default: []
     },
-    data() {
-      return {
-        data
+    data () {
+      return {}
+    },
+    computed: {
+      shortcutList () {
+        // map的方法记录一下,怎么获取首字符
+        return this.data.map((data) => {
+          return data.title.substr(0, 1)
+        })
+      }
+    },
+    methods: {
+      onShortcutTouchStart (event) {
+
+        let anchorIndex = getData(event.target, 'index')
+        console.log(anchorIndex)
+      },
+      onShortcutTouchMove (event) {
+        console.log(event.target)
       }
     },
     components: {
-      Scroll,
-      Loading
+      Scroll
     }
   }
 

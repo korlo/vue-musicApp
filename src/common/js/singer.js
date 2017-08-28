@@ -1,6 +1,6 @@
 
 //这个有啥用的？？ 回去看看API
-export default class singer {
+export default class singerClass {
   constructor({id, name}) {
     this.id = id
     this.name = name

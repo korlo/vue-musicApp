@@ -29,14 +29,14 @@
       }
     },
 
-    mounted() {
+    mounted () {
       //dom 渲染转备好了
       setTimeout(() => {
         this._initScroll()
-      },20)
+      }, 20)
     },
     methods: {
-      _initScroll() {
+      _initScroll () {
         if (!this.$refs.wrapper) {
           return
         }
@@ -46,23 +46,32 @@
         })
       },
       //代理Bscrolll里面的方法
-      enable() {
+      enable () {
         this.scroll && this.scroll.enable()
       },
-      disable() {
+      disable () {
         this.scroll && this.scroll.disable()
       },
       //从新计算高度 刷新
-      refresh() {
+      refresh () {
         this.scroll && this.scroll.refresh()
       }
+      ,
+      //better-Scroll API 里面的方法??? 为什么可以这样用
+      scrollTo () {
+        return this.scroll && this.this.scroll.scrollTo.apply(this.scroll, arguments)
+      },
+      scrollToElemetn () {
+        return this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
+      }
+
     },
     watch: {
       //这个必要的 ，每次data改变都可以
-      data() {
+      data () {
         setTimeout(() => {
           this.refresh()
-        },20)
+        }, 20)
       }
     }
   }
