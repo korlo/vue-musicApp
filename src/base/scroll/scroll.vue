@@ -19,13 +19,20 @@
         tyle: Boolean,
         default: true
       },
+
       //初始化数据， 会有刷新数据的操作
-      //初始化 scroll 的时候 是在 mounted 时候 ，
+      //初始化 scroll 的时候 是在 mounted 时候
       // 但是数据是直接拿到 ，然后渲染了页面 ，要refresh 刷新才能拿到dom
-      // 两个vue组件同时工作人，ecommend组件的dom 没有渲染，但是这边的mounted 已经执行了，所以要从新刷新一次啊
+      // 两个vue组件同时工作，recommend组件的dom 没有渲染，但是这边的mounted 已经执行了，所以要从新刷新一次啊
       data: {
         type: Array,
         default: null
+      },
+
+      //监听列表的滚动情况
+      listenScroll: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -44,7 +51,18 @@
           probeType: this.probeType,
           click: this.probeType
         })
+
+        //监听列表滚动
+        if (this.listenScroll) {
+          let self = this
+          //监听列表  pos是什么数据?
+          this.scroll.on('scroll', (pos) => {
+            // pos 数据是 当前滚动的 x y坐标
+            self.$emit('scrolllisten', pos)
+          })
+        }
       },
+
       //代理Bscrolll里面的方法
       enable () {
         this.scroll && this.scroll.enable()
@@ -59,10 +77,10 @@
       ,
       //better-Scroll API 里面的方法??? 为什么可以这样用
       scrollTo () {
-        return this.scroll && this.this.scroll.scrollTo.apply(this.scroll, arguments)
+        this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
       },
       scrollToElemetn () {
-        return this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
+        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
 
     },

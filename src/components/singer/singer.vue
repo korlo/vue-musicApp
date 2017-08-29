@@ -12,12 +12,12 @@
 
   const HOT_NAME = '热门数据'
   const HOT_SINGER_LEN = 10
+
   export default {
     data () {
       return {
         singers: []
       }
-
     },
     created () {
       this._getSingerList()
