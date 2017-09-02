@@ -9,7 +9,9 @@
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.title}}</h2>
         <ul>
-          <li v-for="item in group.items" class="list-group-item">
+          <li v-for="item in group.items"
+              class="list-group-item"
+              @click="selectItem(item)">
             <img :src="item.avatar" class="avatar"/>
             <span class="name">{{item.name}}</span>
           </li>
@@ -29,15 +31,17 @@
         </li>
       </ul>
     </div>
-    <div class="list-fixed" ref="fixed">
-      <div class="fixed-title"></div>
-    </div>
+    <!--    <div class="list-fixed" ref="fixed">
+         <div class="fixed-title"></div>
+       </div> -->
+    <loading v-show='!data.length'></loading>
   </scroll>
 </template>
 
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
   import {getData} from 'common/js/dom'
+  import Loading from 'base/loading/loading'
 
   const ANCHOR_HEIGHT = 18
   const LIST_HEIGHT = 0
@@ -74,6 +78,11 @@
       }
     },
     methods: {
+      //为什么要这样子写 是以为这个是个基础组件
+      // 不要涉及到业务相关，业务相关联的在业务组件那里写
+      selectItem(item) {
+        this.$emit('select', item)
+      },
       onShortcutTouchStart(event) {
 
         // getData 封装的这个方法 是怎么获取目标的index 的
@@ -135,7 +144,8 @@
 
     },
     components: {
-      Scroll
+      Scroll,
+      Loading
     },
 
     watch: {
@@ -154,7 +164,6 @@
           let height2 = listHeight[i + 1]
           if (!height2 || (-newY > height1 && -newY < height2)) {
             this.currentIndex = i
-            console.log(this.currentIndex)
             return
           }
         }

@@ -1,29 +1,41 @@
 <template>
   <div class="singer">
-    <listview :data="singers"></listview>
+    <listview :data="singers" @select="selectSinger"></listview>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
   import singerClass from 'common/js/singer'
-  import { getSingerList } from 'api/singer'
-  import { ERR_OK } from 'api/config'
+  import {getSingerList} from 'api/singer'
+  import {ERR_OK} from 'api/config'
   import Listview from 'base/listview/listview'
+  import {mapMutations} from 'vuex'
 
   const HOT_NAME = '热门数据'
   const HOT_SINGER_LEN = 10
 
   export default {
-    data () {
+    data() {
       return {
         singers: []
       }
     },
-    created () {
+    created() {
       this._getSingerList()
     },
     methods: {
-      _getSingerList () {
+      selectSinger(singer) {
+        this.setSinger(singer)
+
+        let singerId = singer.id || null
+        this.$router.push(
+          {
+            path: '/singer/' + singerId
+          }
+        )
+      },
+      _getSingerList() {
         getSingerList().then((res) => {
             if (res.code === ERR_OK) {
               this.singers = this._normalizeSinger(res.data.list)
@@ -36,7 +48,7 @@
       // 规范化返回的数据 ，方便渲染，
       // 在自己开发的时候 可以要求后台返回这样的数据结构
       //  知道怎么序列化， 学会处理数据
-      _normalizeSinger (list) {
+      _normalizeSinger(list) {
         //定义map函数
         let map = {
           hot: {
@@ -88,9 +100,15 @@
           return a.title.charCodeAt(0) - b.title.charCodeAt(0)
         })
         return hot.concat(ret)
-      }
+      },
+      ...mapMutations({
+        setSinger:'SET_SINGER'
+      })
+
     },
-    components : {
+
+
+    components: {
       Listview
     }
   }

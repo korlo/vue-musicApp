@@ -31,10 +31,15 @@ const UserCenter = (resolve) => {
     resolve(module)
   })
 }
+const singerDetail = (resolve) => {
+  import('components/singer-detail/singer-detail').then((module) => {
+    resolve(module)
+  })
+}
 
 
 export default new Router({
-routes: [
+  routes: [
     {
       path: '/',
       redirect: '/singer'
@@ -52,12 +57,12 @@ routes: [
     {
       path: '/singer',
       component: Singer,
-      // children: [
-      //   {
-      //     path: ':id',
-      //     component: SingerDetail
-      //   }
-      // ]
+      children: [
+        {
+          path: ':id',
+          component: singerDetail
+        }
+      ]
     },
     {
       path: '/rank',
