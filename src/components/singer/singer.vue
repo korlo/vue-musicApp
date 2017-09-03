@@ -47,7 +47,7 @@
       },
       // 规范化返回的数据 ，方便渲染，
       // 在自己开发的时候 可以要求后台返回这样的数据结构
-      //  知道怎么序列化， 学会处理数据
+      //  知道怎么序列化，77aa
       _normalizeSinger(list) {
         //定义map函数
         let map = {
@@ -104,7 +104,6 @@
       ...mapMutations({
         setSinger:'SET_SINGER'
       })
-
     },
 
 
