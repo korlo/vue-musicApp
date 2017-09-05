@@ -42,14 +42,12 @@
     },
     methods: {
       _getDetail() {
-
         //刷新当前页面的时候 没有这个ID
         //所以要回退到歌手列表页面 ,边界处理的例子
         if (!this.singer.id) {
           this.$router.push('/singer')
           return
         }
-
         getSingerDetail(this.singer.id).then((res) => {
           if (res.code === ERR_OK) {
             this.song = this._npmallizeSongs(res.data.list)
